@@ -1,3 +1,35 @@
+const modal = document.getElementById("myModal");
+
+const closeBtn = document.getElementsByClassName("close")[0];
+
+const nameInput = document.getElementById("name-input");
+
+const submitBtn = document.getElementById("name-submit");
+
+const userName = document.getElementById("user-name");
+
+const storedUser = localStorage.getItem("user");
+
+if (storedUser) {
+  const user = JSON.parse(storedUser);
+  userName.textContent = user.name;
+} else {
+  modal.style.display = "block";
+}
+
+closeBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+submitBtn.onclick = function() {
+  const name = nameInput.value;
+  if (name !== "") {
+    localStorage.setItem("user", JSON.stringify({name}));
+    userName.textContent = name;
+    modal.style.display = "none";
+  }
+}
+
 const botónAgregarAlCarritoCompras = document.querySelectorAll('.agregarAlCarrito');
 botónAgregarAlCarritoCompras.forEach((botónAgregarAlCarrito) => {
   botónAgregarAlCarrito.addEventListener('click', clickAgregarAlCarrito);
