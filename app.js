@@ -1,3 +1,9 @@
+class User{
+  constructor(name){
+    this.name=name
+  }
+}
+
 const modal = document.getElementById("myModal");
 
 const closeBtn = document.getElementsByClassName("close")[0];
@@ -24,7 +30,7 @@ closeBtn.onclick = function() {
 submitBtn.onclick = function() {
   const name = nameInput.value;
   if (name !== "") {
-    localStorage.setItem("user", JSON.stringify({name}));
+    localStorage.setItem("user", JSON.stringify(new User(name)));
     userName.textContent = name;
     modal.style.display = "none";
   }
@@ -65,7 +71,11 @@ function agregarItemAlCarritoCompras(itemTítulo, itemPrecio, itemImagen) {
         '.cantidadItemsCarritoCompras'
       );
       elementQuantity.value++;
-      $('.toast').toast('show');
+      Swal.fire(
+        'Carrito actualizado',
+        'Se agregó al carrito',
+        'success'
+      )
       actualizarTotalCarritoCompras();
       return;
     }
@@ -148,3 +158,27 @@ function clickBotónComprar() {
   contenedorItemsCarritoCompras.innerHTML = '';
   actualizarTotalCarritoCompras();
 }
+
+fetch("http://pokeapi.co/api/v2/pokemon/?limit=3").then(res=>res.json()).then(data=>{
+  
+  console.log(data)
+  const urls = data.results.map(poke=>fetch(poke.url))
+  console.log(urls)
+  return Promise.all(urls)
+}).then(response=>{
+  return Promise.all(response.map(poke=>poke.json()))
+  console.log(response)
+}).then(data=>{
+  const pokemonContainer = document.getElementById("imageContainer")
+  console.log(data)
+  for(const result of data){
+    const img = document.createElement("img")
+    img.height=50
+    img.width=50
+    img.src=result.sprites.front_default
+    pokemonContainer.append(img)
+  }
+})
+
+
+

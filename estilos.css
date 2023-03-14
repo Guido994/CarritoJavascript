@@ -90,3 +90,10 @@
 .total-carrito-compras {
   min-height: 96px;
 }
+
+footer{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
